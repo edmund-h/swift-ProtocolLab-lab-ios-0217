@@ -21,6 +21,18 @@ class BankVault {
 }
 
 
+protocol ProvideAccess {
+    func allowEntryWithPassword (_: [Int]) -> Bool
+}
 
 
-
+extension BankVault: ProvideAccess{
+    func allowEntryWithPassword(_ password: [Int]) -> Bool {
+        guard !password.isEmpty , password.count < 11 else {return false}
+        for (index, digit) in password.enumerated(){
+            guard index % 2 == 0 else {continue}
+            if digit % 2 != 0 {return false}
+        }
+        return true
+    }
+}
